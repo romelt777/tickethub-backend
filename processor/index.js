@@ -1,8 +1,13 @@
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocumentClient, PutCommand } = require("@aws-sdk/lib-dynamodb");
+const AWSXRay = require("aws-xray-sdk");
+
+//using awsXray
+//wrapping client for tracing
+//when written to DB will make call to XRay with timing and info.
 
 //creating connection to DynamoDB
-const client = new DynamoDBClient({ region: process.env.AWS_REGION_LOCAL || "us-east-1" });
+const client = AWSXRay.captureAWSv3Client(new DynamoDBClient({ region: process.env.AWS_REGION_LOCAL || "us-east-1" }));
 
 //Document client is AWS ORM
 const docClient = DynamoDBDocumentClient.from(client);

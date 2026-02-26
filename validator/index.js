@@ -1,9 +1,13 @@
 require('dotenv').config();
 const { SQSClient, SendMessageCommand } = require("@aws-sdk/client-sqs");
 const { validateTicket } = require("./validate-ticket.js");
+const AWSXRAY = require("aws-xray-sdk");
 
+//using awsXray
+//wrapping client for tracing
+//when sending an sqs message, will tell Xray.
 
-const sqsClient = new SQSClient({ region: process.env.AWS_REGION_LOCAL || 'us-east-1' });
+const sqsClient = AWSXRAY.captureAWSv3Client(new SQSClient({ region: process.env.AWS_REGION_LOCAL || 'us-east-1' }));
 
 exports.handler = async (event) => {
     try {

@@ -20,6 +20,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.984.0",
     "@aws-sdk/lib-dynamodb": "^3.984.0",
+    "aws-xray-sdk": "^3.12.0",
     "dotenv": "^17.2.4"
   }
 }
