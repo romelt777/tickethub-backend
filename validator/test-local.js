@@ -7,17 +7,17 @@ const testEvent = {
     body: JSON.stringify({
         id: 222,
         email: "user@example.com",
-        name: "testFromPostman!",
+        name: "!",
         phone: "5091118186",
         quantity: 333,
         creditCard: "4242424242424242",
         expirationDate: "09/67",
         securityCode: "511",
-        address: "string",
-        city: "string",
+        address: "str",
+        city: "s",
         province: "string",
         postalCode: "90210",
-        country: "string"
+        country: "s"
     })
 };
 

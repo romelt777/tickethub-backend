@@ -20,6 +20,8 @@ function validateTicket(ticket) {
         errors.push({ "name": 'Name is required' });
     } else if (ticket.name.length > 30) {
         errors.push({ "name": 'Invalid Name: Maximum 30 Characters' });
+    } else if (ticket.name.length < 2) {
+        errors.push({ "name": 'Invalid Name: Minimum 2 Characters' });
     }
 
     //phone 
@@ -63,6 +65,8 @@ function validateTicket(ticket) {
         errors.push({ "address": 'Address is required' });
     } else if (ticket.address.length > 50) {
         errors.push({ "address": 'Invalid Address: Maximum 50 Characters' });
+    } else if (ticket.address.length < 5) {
+        errors.push({ "address": 'Invalid Address: Minimum 5 Characters' });
     }
 
     //city
@@ -70,6 +74,8 @@ function validateTicket(ticket) {
         errors.push({ "city": 'City is required' });
     } else if (ticket.city.length > 25) {
         errors.push({ "city": 'Invalid City: Maximum 25 Characters' });
+    } else if (ticket.city.length < 2) {
+        errors.push({ "city": 'Invalid City: Minimum 2 Characters' });
     }
 
     //province
@@ -92,6 +98,8 @@ function validateTicket(ticket) {
         errors.push({ "country": 'Country is required' });
     } else if (ticket.country.length > 25) {
         errors.push({ "country": 'Invalid Country: Maximum 25 Characters' });
+    } else if (ticket.country.length < 2) {
+        errors.push({ "country": 'Invalid Country: Minimum 2 Characters' });
     }
 
     return errors;
