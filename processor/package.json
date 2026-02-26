@@ -1,0 +1,25 @@
+{
+  "name": "tickethub-aws-processor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/romelt777/tickethub-aws-processor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/romelt777/tickethub-aws-processor/issues"
+  },
+  "homepage": "https://github.com/romelt777/tickethub-aws-processor#readme",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.984.0",
+    "@aws-sdk/lib-dynamodb": "^3.984.0",
+    "dotenv": "^17.2.4"
+  }
+}

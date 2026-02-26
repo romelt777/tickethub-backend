@@ -1,0 +1,89 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: TicketHub Backend - Validator, Queue, Processor, DynamoDB
+
+Globals:
+  Function:
+    Runtime: nodejs18.x
+    Timeout: 10
+    Tracing: Active
+
+Resources:
+
+  TicketQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: tickethub-queue-sam
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt TicketDLQ.Arn
+        maxReceiveCount: 3
+
+  TicketDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: tickethub-dlq-sam
+
+  TicketsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: TicketsSam
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: ticketId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ticketId
+          KeyType: HASH
+
+  ValidatorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: tickethub-validator-sam
+      CodeUri: validator/
+      Handler: index.handler
+      Environment:
+        Variables:
+          REGION: us-east-1
+          QUEUE_URL: !Ref TicketQueue
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /ticket
+            Method: post
+      Policies:
+        SQSSendMessagePolicy:
+          QueueName: tickethub-queue-sam
+
+  ProcessorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: tickethub-processor-sam
+      CodeUri: processor/
+      Handler: index.handler
+      Environment:
+        Variables:
+          REGION: us-east-1
+          TABLE_NAME: Tickets
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt TicketQueue.Arn
+            BatchSize: 1
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Tickets
+
+Outputs:
+  ApiEndpoint:
+    Description: API Gateway endpoint
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.us-east-1.amazonaws.com/Prod/ticket"
+
+  QueueUrl:
+    Description: SQS Queue URL
+    Value: !Ref TicketQueue
+
+  DLQUrl:
+    Description: Dead Letter Queue URL
+    Value: !Ref TicketDLQ
