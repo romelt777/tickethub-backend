@@ -30,7 +30,7 @@ exports.handler = async (event) => {
 
         //send to sqs
         const command = new SendMessageCommand({
-            QueueUrl: process.env.QUEUE_URL,
+            QueueUrl: process.env.QUEUE_URL100,
             MessageBody: JSON.stringify(body)
         });
 

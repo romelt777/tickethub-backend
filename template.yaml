@@ -2,6 +2,11 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: TicketHub Backend - Validator, Queue, Processor, DynamoDB
 
+Parameters:
+  AlarmEmail:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /tickethub/alarm-email
+
 Globals:
   Function:
     Runtime: nodejs18.x
@@ -76,6 +81,33 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: TicketsSam
+
+  AlarmTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: tickethub-alarms
+      Subscription:
+        - Protocol: email
+          Endpoint: !Ref AlarmEmail
+
+  ValidatorErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: tickethub-validator-errors
+      AlarmDescription: Validator Lambda is throwing errors
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - Name: FunctionName
+          Value: tickethub-validator-sam
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      AlarmActions:
+        - !Ref AlarmTopic
+
 
 Outputs:
   ApiEndpoint:
