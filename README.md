@@ -24,6 +24,7 @@ git clone https://github.com/romelt777/tickethub-backend.git
 cd tickethub-backend
 sam build
 sam deploy --guided
+```
 
 ## Local Testing
 
