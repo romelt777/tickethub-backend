@@ -135,7 +135,7 @@ Resources:
       MetricName: ApproximateNumberOfMessagesVisible
       Dimensions:
         - Name: QueueName
-          Value: !Ref TicketDLQ
+          Value: !GetAtt TicketDLQ.QueueName
       Statistic: Sum
       Period: 300
       EvaluationPeriods: 1
