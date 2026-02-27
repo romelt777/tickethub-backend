@@ -3,6 +3,9 @@
 This is the serverless backend for TicketHub.  
 It handles ticket validation, asynchronous processing, and storage using AWS services.
 
+For the full project:
+- https://github.com/romelt777/tickethub
+
 ## Architecture
 
 API Gateway → Validator Lambda → SQS → Processor Lambda → DynamoDB  
