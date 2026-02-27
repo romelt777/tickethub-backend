@@ -18,19 +18,21 @@ exports.handler = async (event) => {
         const errors = validateTicket(body);
 
         if (errors.length > 0) {
-            return {
-                statusCode: 400,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({ errors })
-            };
+            throw new Error("test validator alarm");
+
+            // return {
+            //     statusCode: 400,
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Access-Control-Allow-Origin': '*'
+            //     },
+            //     body: JSON.stringify({ errors })
+            // };
         }
 
         //send to sqs
         const command = new SendMessageCommand({
-            QueueUrl: process.env.QUEUE_URL100,
+            QueueUrl: process.env.QUEUE_URL,
             MessageBody: JSON.stringify(body)
         });
 
@@ -50,9 +52,11 @@ exports.handler = async (event) => {
         };
     } catch (error) {
         console.error('Error:', error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: error.message })
-        };
+        throw new Error("test validator alarm");
+
+        // return {
+        //     statusCode: 500,
+        //     body: JSON.stringify({ error: error.message })
+        // };
     }
 };
