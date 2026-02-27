@@ -11,23 +11,35 @@ const sqsClient = AWSXRAY.captureAWSv3Client(new SQSClient({ region: process.env
 
 exports.handler = async (event) => {
     try {
-        //parse request
-        const body = JSON.parse(event.body);
+        //request
+        let body;
+
+        try {
+            body = JSON.parse(event.body);
+        } catch {
+            return {
+                statusCode: 400,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+                body: JSON.stringify({ error: "Invalid JSON body" }),
+            };
+        }
+
 
         //validate ticket
         const errors = validateTicket(body);
 
         if (errors.length > 0) {
-            throw new Error("test validator alarm");
-
-            // return {
-            //     statusCode: 400,
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Access-Control-Allow-Origin': '*'
-            //     },
-            //     body: JSON.stringify({ errors })
-            // };
+            return {
+                statusCode: 400,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({ errors })
+            };
         }
 
         //send to sqs
@@ -52,11 +64,6 @@ exports.handler = async (event) => {
         };
     } catch (error) {
         console.error('Error:', error);
-        throw new Error("test validator alarm");
-
-        // return {
-        //     statusCode: 500,
-        //     body: JSON.stringify({ error: error.message })
-        // };
+        throw error; //this will cause lambda failure, and therefore set off cloudwatch alarm email notification
     }
 };
