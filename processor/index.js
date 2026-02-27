@@ -32,7 +32,7 @@ exports.handler = async (event) => {
 
             //prepare request
             const command = new PutCommand({
-                TableName: process.env.TABLE_NAME,
+                TableName: process.env.TABLE_NAME_100,
                 Item: ticket
             });
 
