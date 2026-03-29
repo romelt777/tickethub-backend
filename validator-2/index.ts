@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
 import AWSXRAY from "aws-xray-sdk";
-import { error } from "node:console";
 
 //using awsXray
 //wrapping client for tracing
