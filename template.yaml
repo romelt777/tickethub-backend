@@ -44,9 +44,16 @@ Resources:
 
   ValidatorFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2020
+        EntryPoints:
+          - src/index.ts
     Properties:
-      FunctionName: tickethub-validator-sam
-      CodeUri: validator/
+      FunctionName: tickethub-validator-sam-2
+      CodeUri: validator-2/
       Handler: index.handler
       Environment:
         Variables:
