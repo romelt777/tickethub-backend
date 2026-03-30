@@ -16,7 +16,7 @@ type TicketType = {
     country: string,
 }
 
-function validateTicket(ticket: TicketType) {
+export function validateTicket(ticket: TicketType) {
     const errors: Record<string, string>[] = [];
 
     // ID validation
@@ -120,4 +120,3 @@ function validateTicket(ticket: TicketType) {
     return errors;
 }
 
-module.exports = { validateTicket };
