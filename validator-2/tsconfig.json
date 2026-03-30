@@ -13,8 +13,9 @@
     "exactOptionalPropertyTypes": true,
     "sourceMap": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "rootDir": "src"
   },
-  "include": [ "**/*.ts", "**/*.mts", "**/*.js" ],
-  "exclude": [ "node_modules" ]
+  "include": [ "src/**/*.ts" ],
+  "exclude": [ "node_modules", "tests", "*.config.ts" ]
 }
