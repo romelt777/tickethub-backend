@@ -3,16 +3,20 @@ import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
 import AWSXRAY from "aws-xray-sdk";
 import { validateTicket } from "./validate-ticket.js";
 //for event type 
-import type { APIGatewayEvent, APIGatewayProxyResult } from "aws-lambda";
+import type { APIGatewayProxyResult } from "aws-lambda";
 
 
 //using awsXray
 //wrapping client for tracing
 //when sending an sqs message, will tell Xray.
 
+type EventType = {
+    body: string,
+};
+
 const sqsClient = AWSXRAY.captureAWSv3Client(new SQSClient({ region: process.env.AWS_REGION_LOCAL || "us-east-1" }));
 
-exports.handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: EventType): Promise<APIGatewayProxyResult> => {
     try {
         //request
         let body;
