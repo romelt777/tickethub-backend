@@ -18,5 +18,10 @@
     "jiti": "^2.6.1",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.58.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1020.0",
+    "@aws-sdk/lib-dynamodb": "^3.1020.0",
+    "aws-xray-sdk": "^3.12.0"
   }
 }
