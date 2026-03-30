@@ -106,7 +106,7 @@ Resources:
       MetricName: Errors
       Dimensions:
         - Name: FunctionName
-          Value: tickethub-validator-sam
+          Value: !Ref ValidatorFunction
       Statistic: Sum
       Period: 300
       EvaluationPeriods: 1
