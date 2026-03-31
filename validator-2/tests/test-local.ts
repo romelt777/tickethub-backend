@@ -11,7 +11,7 @@ const testEvent = {
     body: JSON.stringify({
         id: 222,
         email: "user@example.com",
-        name: "LOCAL MAN",
+        name: "LASTMARCH",
         phone: "5091118186",
         quantity: 333,
         creditCard: "4242424242424242",

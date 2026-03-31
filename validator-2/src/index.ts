@@ -52,7 +52,7 @@ export const handler = async (event: EventType): Promise<APIGatewayProxyResult> 
 
         //send to sqs
         const command = new SendMessageCommand({
-            QueueUrl: process.env.QUEUE_URL,
+            QueueUrl: process.env.QUEUE_URL_SAM,
             MessageBody: JSON.stringify(body)
         });
 
