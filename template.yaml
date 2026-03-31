@@ -58,7 +58,7 @@ Resources:
       Environment:
         Variables:
           REGION: us-east-1
-          QUEUE_URL: !Ref TicketQueue
+          QUEUE_URL_SAM: !Ref TicketQueue
       Events:
         ApiEvent:
           Type: Api
@@ -69,11 +69,18 @@ Resources:
         SQSSendMessagePolicy:
           QueueName: tickethub-queue-sam
 
-  ProcessorFunction:
+  ProcessorFunctionV2:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: false
+        Target: es2020
+        EntryPoints:
+          - src/index.ts
     Properties:
-      FunctionName: tickethub-processor-sam
-      CodeUri: processor/
+      FunctionName: tickethub-processor-sam-2
+      CodeUri: processor-2/
       Handler: index.handler
       Environment:
         Variables:
@@ -124,7 +131,7 @@ Resources:
       MetricName: Errors
       Dimensions:
         - Name: FunctionName
-          Value: !Ref ProcessorFunction
+          Value: !Ref ProcessorFunctionV2
       Statistic: Sum
       Period: 300
       EvaluationPeriods: 1
