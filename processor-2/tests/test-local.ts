@@ -4,10 +4,7 @@ import { handler } from '../src/index';
 import type { SQSEvent, SQSRecord } from "aws-lambda";
 import * as AWSXRay from "aws-xray-sdk";
 
-
-
 AWSXRay.setContextMissingStrategy("IGNORE_ERROR");
-
 
 //mock SQS event
 const mockEvent: SQSEvent = {
